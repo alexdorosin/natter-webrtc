@@ -4,35 +4,81 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WebRTC Demo</title>
+    <title>Natter - WebRTC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h2>1. Start your Webcam</h2>
-    <div class="videos">
-      <span>
-        <h3>Local Stream</h3>
-        <video id="webcamVideo" autoplay playsinline></video>
-      </span>
-      <span>
-        <h3>Remote Stream</h3>
-        <video id="remoteVideo" autoplay playsinline></video>
-      </span>
+    <div class="app-layout">
+      <div class="main-content-wrapper">
+        <div class="video-area">
+          <div class="video-slot">
+            <video id="webcamVideo" autoplay playsinline></video>
+            <div class="participant-name">You</div>
+          </div>
+          <div class="video-slot">
+            <video id="remoteVideo" autoplay playsinline></video>
+            <div class="participant-name">Remote</div>
+          </div>
+        </div>
+
+        <div class="controls-area">
+          <div class="control-group card" id="webcam-setup-group">
+            <h2>
+              <span class="material-icons">videocam_off</span> Camera Setup
+            </h2>
+            <p>Start your camera to begin or join a call.</p>
+            <button id="webcamButton" class="btn btn-primary">
+              <span class="material-icons">videocam</span> Start Webcam
+            </button>
+          </div>
+
+          <div
+            class="control-group card"
+            id="call-management-group"
+            style="display: none"
+          >
+            <div class="create-call-section">
+              <h3><span class="material-icons">add_ic_call</span> New Call</h3>
+              <button id="callButton" class="btn btn-outlined" disabled>
+                Create Call
+              </button>
+            </div>
+
+            <div class="or-divider"><span>OR</span></div>
+
+            <div class="join-call-section">
+              <h3>
+                <span class="material-icons">phonelink_ring</span> Join Call
+              </h3>
+              <input type="text" id="callInput" placeholder="Enter Call ID" />
+              <button id="answerButton" class="btn btn-outlined" disabled>
+                Answer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bottom-action-bar"
+        id="bottom-action-bar"
+        style="display: none"
+      >
+        <button id="hangupButton" class="btn btn-danger btn-icon-only" disabled>
+          <span class="material-icons">call_end</span>
+        </button>
+      </div>
     </div>
-
-    <button id="webcamButton">Start webcam</button>
-    <h2>2. Create a new Call</h2>
-    <button id="callButton" disabled>Create Call (offer)</button>
-
-    <h2>3. Join a Call</h2>
-    <p>Answer the call from a different browser window or device</p>
-
-    <input id="callInput" />
-    <button id="answerButton" disabled>Answer</button>
-
-    <h2>4. Hangup</h2>
-
-    <button id="hangupButton" disabled>Hangup</button>
-
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

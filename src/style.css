@@ -1,96 +1,410 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* === WebRTC Video Chat App - Style Sheet === */
+/* Inspired by Google Meet - Clean, Minimalist, Responsive */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* --- Google Fonts (Roboto & Material Icons) --- */
+/* Assumed to be linked in HTML:
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+*/
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+/* --- Basic Reset & Global Box Sizing --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Consistent box model */
   margin: 0;
+  padding: 0;
+}
+
+/* --- Body Styling --- */
+body {
+  font-family: "Roboto", sans-serif; /* Primary font */
+  background-color: #f8f9fa; /* Light gray background, common in Google UIs */
+  color: #202124; /* Google's standard text color for readability */
+  display: flex; /* Used to center .app-layout */
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent body scroll; .app-layout handles its own scroll */
+}
+
+/* --- Main Application Layout Container --- */
+.app-layout {
+  width: 100%;
+  height: 100%; /* Occupy full viewport height */
+  display: flex; /* Use flexbox for main layout structure */
+  flex-direction: column; /* Stack children vertically (content wrapper, bottom bar) */
+  background-color: #ffffff; /* White main background for the app interface */
+  max-width: 1400px; /* Limit overall app width on very large screens */
+  margin: auto; /* Center the layout if max-width is applied */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.07); /* Subtle shadow for the app frame */
+}
+
+/* --- Wrapper for Video Area and Primary Controls --- */
+.main-content-wrapper {
+  flex-grow: 1; /* Allows this area to take up available vertical space */
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column; /* Stack video area and controls area vertically */
+  padding: 24px; /* Padding around the main content */
+  overflow-y: auto; /* Allow this section to scroll if its content overflows */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* --- Video Display Area --- */
+.video-area {
+  display: flex; /* Use flexbox to arrange video slots */
+  gap: 16px; /* Space between video slots */
+  justify-content: center; /* Center video slots if they don't fill the space */
+  align-items: stretch; /* Video slots stretch vertically to match tallest */
+  flex-wrap: wrap; /* Allow video slots to wrap to the next line if not enough space */
+  margin-bottom: 24px; /* Space below the video area */
+  min-height: 180px; /* Ensure video area has some height even if empty */
+  flex-grow: 1; /* Allow video area to expand vertically and push controls down */
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.video-slot {
+  flex: 1 1 300px; /* Flex properties: grow, shrink, basis (initial size for row layout) */
+  min-width: 280px; /* Minimum width before wrapping or shrinking too much */
+  background-color: #000000; /* Black background for the video element container */
+  border-radius: 8px; /* Rounded corners for video slots */
+  overflow: hidden; /* Clip the <video> tag to the border-radius */
+  position: relative; /* For absolute positioning of the participant name */
+  display: flex; /* To center video if it doesn't fill (due to object-fit) */
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9; /* Maintain a 16:9 aspect ratio for video slots */
+  max-height: calc(
+    100vh - 280px
+  ); /* Max height on larger screens, prevents excessive height */
+  /* 280px is a heuristic for controls + bottom bar + padding */
+}
+
+.video-slot video {
+  width: 100%; /* Video tag fills its parent .video-slot */
+  height: 100%;
+  object-fit: cover; /* Video covers the slot, cropping if necessary to maintain aspect ratio */
+}
+
+.participant-name {
+  position: absolute; /* Overlay on top of the video */
+  bottom: 8px;
+  left: 12px;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.6
+  ); /* Semi-transparent background for readability */
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+}
+
+/* --- Controls Area (Webcam Setup, Call Management) --- */
+.controls-area {
+  display: flex;
+  flex-direction: column; /* Stack control groups vertically */
+  align-items: center; /* Center control groups horizontally */
+  gap: 20px; /* Space between control groups/cards */
+  padding-top: 16px; /* Space above the controls section */
+  flex-shrink: 0; /* Prevent controls area from shrinking if video area grows a lot */
+}
+
+.control-group {
+  /* Wrapper for each logical set of controls */
+  width: 100%;
+  max-width: 480px; /* Limit width of control cards for better readability */
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
+.control-group.card {
+  /* Card-like styling for control groups */
+  background-color: #fff;
+  padding: 24px;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.06); /* Subtle shadow */
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.control-group h2,
+.control-group h3 {
+  /* Headings within control groups */
+  display: flex; /* Align icon and text */
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and heading text */
+  font-weight: 500;
+  color: #3c4043; /* Darker gray for headings */
+  margin-bottom: 8px;
+}
+.control-group h2 {
+  font-size: 1.375rem;
+  margin-bottom: 12px;
+} /* ~22px */
+.control-group h3 {
+  font-size: 1.125rem;
+} /* ~18px */
+
+.control-group p {
+  /* Descriptive text within control groups */
+  color: #5f6368; /* Medium gray for paragraph text */
+  font-size: 0.9375rem; /* 15px */
+  margin-bottom: 16px;
+  line-height: 1.5; /* Improved readability for paragraphs */
+}
+
+.create-call-section,
+.join-call-section {
+  /* Sections within the call management card */
+  margin-top: 16px;
+}
+.join-call-section input {
+  margin-top: 8px;
+  margin-bottom: 12px;
+} /* Spacing for input field */
+
+.or-divider {
+  /* "OR" divider between create and join call sections */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #5f6368;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 24px 0; /* Vertical spacing for the divider */
+}
+.or-divider::before,
+.or-divider::after {
+  /* Lines on either side of "OR" text */
+  content: "";
+  flex: 1; /* Lines take up available space */
+  border-bottom: 1px solid #dadce0; /* Light gray line */
+}
+.or-divider span {
+  padding: 0 12px;
+} /* Space around "OR" text */
+
+/* --- Buttons: Google Meet Style --- */
+.btn {
+  /* Base button styling */
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem; /* 15px */
+  padding: 10px 24px; /* Comfortable padding */
+  border-radius: 20px; /* Pill shape, common in Google UIs */
+  border: 1px solid transparent; /* Base border, overridden by specific types */
+  cursor: pointer;
+  display: inline-flex; /* Align icon and text properly */
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and text */
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Smooth transitions */
+  text-transform: none; /* No uppercase, like Google Meet buttons */
+}
+.btn .material-icons {
+  font-size: 20px;
+} /* Default icon size within buttons */
+
+/* Primary action button (e.g., Start Webcam) */
+.btn-primary {
+  background-color: #1a73e8; /* Google Blue */
+  color: white;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #1765cc; /* Darker blue on hover */
+  box-shadow: 0 1px 2px 0 rgba(26, 115, 232, 0.3),
+    0 1px 3px 1px rgba(26, 115, 232, 0.15); /* Subtle shadow */
+}
+
+/* Outlined button (e.g., Create Call, Answer) */
+.btn-outlined {
+  background-color: white;
+  color: #1a73e8; /* Google Blue text */
+  border-color: #dadce0; /* Light gray border */
+}
+.btn-outlined:hover:not(:disabled) {
+  background-color: rgba(
+    26,
+    115,
+    232,
+    0.04
+  ); /* Very light blue wash on hover */
+  border-color: #1a73e8; /* Blue border on hover */
+}
+
+/* Danger action button (e.g., Hangup) */
+.btn-danger {
+  background-color: #ea4335; /* Google Red */
+  color: white;
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: #d93025; /* Darker red on hover */
+}
+
+/* Icon-only button styling (used for Hangup) */
+.btn-icon-only {
+  padding: 10px; /* Adjust padding for desired circular button size */
+  border-radius: 50%; /* Circular shape */
+  width: 48px; /* Fixed width */
+  height: 48px; /* Fixed height to maintain circle */
+}
+.btn-icon-only .material-icons {
+  font-size: 24px; /* Larger icon for icon-only buttons */
+  margin: 0; /* No gap needed if only icon */
+}
+
+/* Disabled state for all buttons */
+.btn:disabled {
+  background-color: #f1f3f4 !important; /* Light gray for disabled, !important to ensure override */
+  color: #bdc1c6 !important; /* Muted text color for disabled */
+  border-color: #f1f3f4 !important; /* Match background for border */
+  cursor: not-allowed;
+  box-shadow: none !important; /* No shadow when disabled */
+}
+
+/* --- Input Field (for Call ID) --- */
+#callInput {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem; /* 16px */
+  padding: 12px 16px;
+  border: 1px solid #dadce0; /* Standard Google input border */
+  border-radius: 4px; /* Standard input border radius */
+  width: 100%; /* Take full width of its container section */
+  max-width: 280px; /* Limit input width for aesthetics */
+  color: #202124; /* Standard text color */
+  background-color: #fff; /* White background */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transition */
+}
+#callInput::placeholder {
+  color: #5f6368;
+} /* Placeholder text color */
+#callInput:focus {
+  outline: none; /* Remove default browser outline */
+  border-color: #1a73e8; /* Blue border on focus */
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2); /* Blue focus ring, Google style */
+}
+
+/* --- Bottom Action Bar (for Hangup button) --- */
+.bottom-action-bar {
+  background-color: #ffffff;
+  padding: 12px 24px;
+  border-top: 1px solid #e0e0e0; /* Separator line from main content */
+  display: flex;
+  justify-content: center; /* Center content (hangup button) */
+  align-items: center;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow above the bar */
+  position: sticky; /* Sticks to the bottom of .app-layout if main content scrolls */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10; /* Ensure it's above other content if overlap occurs */
+  flex-shrink: 0; /* Prevent this bar from shrinking */
+}
+
+/* === Responsive Adjustments === */
+
+/* --- Tablet and Smaller (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .main-content-wrapper {
+    padding: 16px;
+  } /* Reduce padding */
+
+  .video-area {
+    flex-direction: column; /* Stack video slots vertically */
+    align-items: center; /* Center stacked video slots horizontally */
+    gap: 16px; /* Adjusted gap for stacked items */
+    min-height: auto; /* Allow height to be determined by content */
+    flex-wrap: nowrap; /* No wrapping needed when in column layout */
   }
-  a:hover {
-    color: #747bff;
+
+  .video-slot {
+    flex-grow: 0; /* Reset flex properties for column layout */
+    flex-shrink: 0;
+    flex-basis: auto;
+    width: 90%; /* Video slots take 90% of parent width */
+    max-width: 420px; /* Cap max width on larger end of this breakpoint */
+    min-width: 0; /* Reset min-width from base style */
+    /* aspect-ratio: 16 / 9; is inherited */
+    max-height: 40vh; /* Limit height to 40% of viewport height */
   }
-  button {
-    background-color: #f9f9f9;
+
+  .control-group.card {
+    padding: 20px;
+  } /* Adjust card padding */
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+  } /* Adjust button size and font */
+  .btn .material-icons {
+    font-size: 18px;
   }
+  .btn-icon-only {
+    width: 44px;
+    height: 44px;
+  } /* Adjust icon-only button size */
+  .btn-icon-only .material-icons {
+    font-size: 20px;
+  }
+  #callInput {
+    font-size: 0.9375rem;
+  } /* Adjust input font size */
+  .participant-name {
+    font-size: 0.8125rem;
+  } /* Adjust participant name font size */
+}
+
+/* --- Mobile Phones (max-width: 480px) --- */
+@media (max-width: 480px) {
+  .main-content-wrapper {
+    padding: 12px;
+  } /* Further reduce padding */
+
+  .video-area {
+    gap: 12px; /* Slightly reduced gap for very small screens */
+  }
+
+  .video-slot {
+    width: 95%; /* Video slots take almost full width */
+    max-width: none; /* Remove max-width cap from previous breakpoint */
+    max-height: 35vh; /* Further adjust max video height */
+  }
+
+  .control-group.card {
+    padding: 16px;
+  } /* Adjust card padding */
+  .control-group h2 {
+    font-size: 1.2rem;
+  } /* Adjust heading sizes */
+  .control-group h3 {
+    font-size: 1rem;
+  }
+  .control-group p {
+    font-size: 0.875rem;
+  } /* Adjust paragraph font size */
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.8125rem;
+  } /* Smaller buttons */
+  .btn .material-icons {
+    font-size: 16px;
+  }
+  .btn-icon-only {
+    width: 40px;
+    height: 40px;
+  } /* Smaller icon-only buttons */
+  .btn-icon-only .material-icons {
+    font-size: 18px;
+  }
+
+  #callInput {
+    font-size: 0.875rem;
+  } /* Adjust input font size */
+  .participant-name {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  } /* Smaller participant names */
+  .or-divider {
+    margin: 16px 0;
+  } /* Reduce divider margin */
 }
