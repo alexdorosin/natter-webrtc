@@ -1,17 +1,8 @@
-/* === WebRTC Video Chat App - Style Sheet === */
-/* Inspired by Google Meet - Clean, Minimalist, Responsive */
-
-/* --- Google Fonts (Roboto & Material Icons) --- */
-/* Assumed to be linked in HTML:
-   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-*/
-
 /* --- Basic Reset & Global Box Sizing --- */
 *,
 *::before,
 *::after {
-  box-sizing: border-box; /* Consistent box model */
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
