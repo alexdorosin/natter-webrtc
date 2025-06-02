@@ -339,7 +339,6 @@ export async function hangupCall(): Promise<void> {
     pc.getSenders().forEach((sender) => {
       if (sender.track) {
         sender.track.stop();
-        // pc.removeTrack(sender); // Good practice, though closing pc handles this
       }
     });
     pc.getReceivers().forEach((receiver) => {
@@ -358,7 +357,7 @@ export async function hangupCall(): Promise<void> {
   }
   if (remoteStream) {
     remoteStream.getTracks().forEach((track) => track.stop());
-    remoteStream = null; // Explicitly nullify
+    remoteStream = null;
     console.log("Remote stream stopped.");
   }
 

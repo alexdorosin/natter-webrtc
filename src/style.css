@@ -1,4 +1,3 @@
-/* --- Basic Reset & Global Box Sizing --- */
 *,
 *::before,
 *::after {
@@ -9,287 +8,266 @@
 
 /* --- Body Styling --- */
 body {
-  font-family: "Roboto", sans-serif; /* Primary font */
-  background-color: #f8f9fa; /* Light gray background, common in Google UIs */
-  color: #202124; /* Google's standard text color for readability */
-  display: flex; /* Used to center .app-layout */
+  font-family: "Roboto", sans-serif;
+  background-color: #f8f9fa;
+  color: #202124;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevent body scroll; .app-layout handles its own scroll */
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* --- Main Application Layout Container --- */
 .app-layout {
   width: 100%;
-  height: 100%; /* Occupy full viewport height */
-  display: flex; /* Use flexbox for main layout structure */
-  flex-direction: column; /* Stack children vertically (content wrapper, bottom bar) */
-  background-color: #ffffff; /* White main background for the app interface */
-  max-width: 1400px; /* Limit overall app width on very large screens */
-  margin: auto; /* Center the layout if max-width is applied */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.07); /* Subtle shadow for the app frame */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  max-width: 1400px;
+  margin: auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.07);
 }
 
 /* --- Wrapper for Video Area and Primary Controls --- */
 .main-content-wrapper {
-  flex-grow: 1; /* Allows this area to take up available vertical space */
+  flex-grow: 1;
   display: flex;
-  flex-direction: column; /* Stack video area and controls area vertically */
-  padding: 24px; /* Padding around the main content */
-  overflow-y: auto; /* Allow this section to scroll if its content overflows */
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
 }
 
 /* --- Video Display Area --- */
 .video-area {
-  display: flex; /* Use flexbox to arrange video slots */
-  gap: 16px; /* Space between video slots */
-  justify-content: center; /* Center video slots if they don't fill the space */
-  align-items: stretch; /* Video slots stretch vertically to match tallest */
-  flex-wrap: wrap; /* Allow video slots to wrap to the next line if not enough space */
-  margin-bottom: 24px; /* Space below the video area */
-  min-height: 180px; /* Ensure video area has some height even if empty */
-  flex-grow: 1; /* Allow video area to expand vertically and push controls down */
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  min-height: 180px;
+  flex-grow: 1;
 }
 
 .video-slot {
-  flex: 1 1 300px; /* Flex properties: grow, shrink, basis (initial size for row layout) */
-  min-width: 280px; /* Minimum width before wrapping or shrinking too much */
-  background-color: #000000; /* Black background for the video element container */
-  border-radius: 8px; /* Rounded corners for video slots */
-  overflow: hidden; /* Clip the <video> tag to the border-radius */
-  position: relative; /* For absolute positioning of the participant name */
-  display: flex; /* To center video if it doesn't fill (due to object-fit) */
+  flex: 1 1 300px;
+  min-width: 280px;
+  background-color: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16 / 9; /* Maintain a 16:9 aspect ratio for video slots */
-  max-height: calc(
-    100vh - 280px
-  ); /* Max height on larger screens, prevents excessive height */
-  /* 280px is a heuristic for controls + bottom bar + padding */
+  aspect-ratio: 16 / 9;
+  max-height: calc(100vh - 280px);
 }
 
 .video-slot video {
-  width: 100%; /* Video tag fills its parent .video-slot */
+  width: 100%;
   height: 100%;
-  object-fit: cover; /* Video covers the slot, cropping if necessary to maintain aspect ratio */
+  object-fit: cover;
 }
 
 .participant-name {
-  position: absolute; /* Overlay on top of the video */
+  position: absolute;
   bottom: 8px;
   left: 12px;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.6
-  ); /* Semi-transparent background for readability */
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
   padding: 4px 10px;
   border-radius: 4px;
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
 /* --- Controls Area (Webcam Setup, Call Management) --- */
 .controls-area {
   display: flex;
-  flex-direction: column; /* Stack control groups vertically */
-  align-items: center; /* Center control groups horizontally */
-  gap: 20px; /* Space between control groups/cards */
-  padding-top: 16px; /* Space above the controls section */
-  flex-shrink: 0; /* Prevent controls area from shrinking if video area grows a lot */
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 16px;
+  flex-shrink: 0;
 }
 
 .control-group {
-  /* Wrapper for each logical set of controls */
   width: 100%;
-  max-width: 480px; /* Limit width of control cards for better readability */
+  max-width: 480px;
   text-align: center;
 }
 
 .control-group.card {
-  /* Card-like styling for control groups */
   background-color: #fff;
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
 .control-group h2,
 .control-group h3 {
-  /* Headings within control groups */
-  display: flex; /* Align icon and text */
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Space between icon and heading text */
+  gap: 8px;
   font-weight: 500;
-  color: #3c4043; /* Darker gray for headings */
+  color: #3c4043;
   margin-bottom: 8px;
 }
 .control-group h2 {
   font-size: 1.375rem;
   margin-bottom: 12px;
-} /* ~22px */
+}
 .control-group h3 {
   font-size: 1.125rem;
-} /* ~18px */
+}
 
 .control-group p {
-  /* Descriptive text within control groups */
-  color: #5f6368; /* Medium gray for paragraph text */
-  font-size: 0.9375rem; /* 15px */
+  color: #5f6368;
+  font-size: 0.9375rem;
   margin-bottom: 16px;
-  line-height: 1.5; /* Improved readability for paragraphs */
+  line-height: 1.5;
 }
 
 .create-call-section,
 .join-call-section {
-  /* Sections within the call management card */
   margin-top: 16px;
 }
 .join-call-section input {
   margin-top: 8px;
   margin-bottom: 12px;
-} /* Spacing for input field */
+}
 
 .or-divider {
-  /* "OR" divider between create and join call sections */
   display: flex;
   align-items: center;
   text-align: center;
   color: #5f6368;
   font-size: 0.875rem;
   font-weight: 500;
-  margin: 24px 0; /* Vertical spacing for the divider */
+  margin: 24px 0;
 }
 .or-divider::before,
 .or-divider::after {
-  /* Lines on either side of "OR" text */
   content: "";
-  flex: 1; /* Lines take up available space */
-  border-bottom: 1px solid #dadce0; /* Light gray line */
+  flex: 1;
+  border-bottom: 1px solid #dadce0;
 }
 .or-divider span {
   padding: 0 12px;
-} /* Space around "OR" text */
+}
 
 /* --- Buttons: Google Meet Style --- */
 .btn {
-  /* Base button styling */
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  font-size: 0.9375rem; /* 15px */
-  padding: 10px 24px; /* Comfortable padding */
-  border-radius: 20px; /* Pill shape, common in Google UIs */
-  border: 1px solid transparent; /* Base border, overridden by specific types */
+  font-size: 0.9375rem;
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: 1px solid transparent;
   cursor: pointer;
-  display: inline-flex; /* Align icon and text properly */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Space between icon and text */
-  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Smooth transitions */
-  text-transform: none; /* No uppercase, like Google Meet buttons */
+  gap: 8px;
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  text-transform: none;
 }
 .btn .material-icons {
   font-size: 20px;
-} /* Default icon size within buttons */
+}
 
 /* Primary action button (e.g., Start Webcam) */
 .btn-primary {
-  background-color: #1a73e8; /* Google Blue */
+  background-color: #1a73e8;
   color: white;
 }
 .btn-primary:hover:not(:disabled) {
-  background-color: #1765cc; /* Darker blue on hover */
+  background-color: #1765cc;
   box-shadow: 0 1px 2px 0 rgba(26, 115, 232, 0.3),
-    0 1px 3px 1px rgba(26, 115, 232, 0.15); /* Subtle shadow */
+    0 1px 3px 1px rgba(26, 115, 232, 0.15);
 }
 
 /* Outlined button (e.g., Create Call, Answer) */
 .btn-outlined {
   background-color: white;
-  color: #1a73e8; /* Google Blue text */
-  border-color: #dadce0; /* Light gray border */
+  color: #1a73e8;
+  border-color: #dadce0;
 }
 .btn-outlined:hover:not(:disabled) {
-  background-color: rgba(
-    26,
-    115,
-    232,
-    0.04
-  ); /* Very light blue wash on hover */
-  border-color: #1a73e8; /* Blue border on hover */
+  background-color: rgba(26, 115, 232, 0.04);
+  border-color: #1a73e8;
 }
 
 /* Danger action button (e.g., Hangup) */
 .btn-danger {
-  background-color: #ea4335; /* Google Red */
+  background-color: #ea4335;
   color: white;
 }
 .btn-danger:hover:not(:disabled) {
-  background-color: #d93025; /* Darker red on hover */
+  background-color: #d93025;
 }
 
 /* Icon-only button styling (used for Hangup) */
 .btn-icon-only {
-  padding: 10px; /* Adjust padding for desired circular button size */
-  border-radius: 50%; /* Circular shape */
-  width: 48px; /* Fixed width */
-  height: 48px; /* Fixed height to maintain circle */
+  padding: 10px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
 }
 .btn-icon-only .material-icons {
-  font-size: 24px; /* Larger icon for icon-only buttons */
-  margin: 0; /* No gap needed if only icon */
+  font-size: 24px;
+  margin: 0;
 }
 
 /* Disabled state for all buttons */
 .btn:disabled {
-  background-color: #f1f3f4 !important; /* Light gray for disabled, !important to ensure override */
-  color: #bdc1c6 !important; /* Muted text color for disabled */
-  border-color: #f1f3f4 !important; /* Match background for border */
+  background-color: #f1f3f4 !important;
+  color: #bdc1c6 !important;
+  border-color: #f1f3f4 !important;
   cursor: not-allowed;
-  box-shadow: none !important; /* No shadow when disabled */
+  box-shadow: none !important;
 }
 
 /* --- Input Field (for Call ID) --- */
 #callInput {
   font-family: "Roboto", sans-serif;
-  font-size: 1rem; /* 16px */
+  font-size: 1rem;
   padding: 12px 16px;
-  border: 1px solid #dadce0; /* Standard Google input border */
-  border-radius: 4px; /* Standard input border radius */
-  width: 100%; /* Take full width of its container section */
-  max-width: 280px; /* Limit input width for aesthetics */
-  color: #202124; /* Standard text color */
-  background-color: #fff; /* White background */
-  transition: border-color 0.2s ease, box-shadow 0.2s ease; /* Smooth focus transition */
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 280px;
+  color: #202124;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 #callInput::placeholder {
   color: #5f6368;
-} /* Placeholder text color */
+}
 #callInput:focus {
-  outline: none; /* Remove default browser outline */
-  border-color: #1a73e8; /* Blue border on focus */
-  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2); /* Blue focus ring, Google style */
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
 }
 
 /* --- Bottom Action Bar (for Hangup button) --- */
 .bottom-action-bar {
   background-color: #ffffff;
   padding: 12px 24px;
-  border-top: 1px solid #e0e0e0; /* Separator line from main content */
+  border-top: 1px solid #e0e0e0;
   display: flex;
-  justify-content: center; /* Center content (hangup button) */
+  justify-content: center;
   align-items: center;
-  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow above the bar */
-  position: sticky; /* Sticks to the bottom of .app-layout if main content scrolls */
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 10; /* Ensure it's above other content if overlap occurs */
-  flex-shrink: 0; /* Prevent this bar from shrinking */
+  z-index: 10;
+  flex-shrink: 0;
 }
 
 /* === Responsive Adjustments === */
@@ -298,104 +276,104 @@ body {
 @media (max-width: 768px) {
   .main-content-wrapper {
     padding: 16px;
-  } /* Reduce padding */
+  }
 
   .video-area {
-    flex-direction: column; /* Stack video slots vertically */
-    align-items: center; /* Center stacked video slots horizontally */
-    gap: 16px; /* Adjusted gap for stacked items */
-    min-height: auto; /* Allow height to be determined by content */
-    flex-wrap: nowrap; /* No wrapping needed when in column layout */
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    min-height: auto;
+    flex-wrap: nowrap;
   }
 
   .video-slot {
-    flex-grow: 0; /* Reset flex properties for column layout */
+    flex-grow: 0;
     flex-shrink: 0;
     flex-basis: auto;
-    width: 90%; /* Video slots take 90% of parent width */
-    max-width: 420px; /* Cap max width on larger end of this breakpoint */
-    min-width: 0; /* Reset min-width from base style */
-    /* aspect-ratio: 16 / 9; is inherited */
-    max-height: 40vh; /* Limit height to 40% of viewport height */
+    width: 90%;
+    max-width: 420px;
+    min-width: 0;
+
+    max-height: 40vh;
   }
 
   .control-group.card {
     padding: 20px;
-  } /* Adjust card padding */
+  }
   .btn {
     padding: 10px 20px;
     font-size: 0.875rem;
-  } /* Adjust button size and font */
+  }
   .btn .material-icons {
     font-size: 18px;
   }
   .btn-icon-only {
     width: 44px;
     height: 44px;
-  } /* Adjust icon-only button size */
+  }
   .btn-icon-only .material-icons {
     font-size: 20px;
   }
   #callInput {
     font-size: 0.9375rem;
-  } /* Adjust input font size */
+  }
   .participant-name {
     font-size: 0.8125rem;
-  } /* Adjust participant name font size */
+  }
 }
 
 /* --- Mobile Phones (max-width: 480px) --- */
 @media (max-width: 480px) {
   .main-content-wrapper {
     padding: 12px;
-  } /* Further reduce padding */
+  }
 
   .video-area {
-    gap: 12px; /* Slightly reduced gap for very small screens */
+    gap: 12px;
   }
 
   .video-slot {
-    width: 95%; /* Video slots take almost full width */
-    max-width: none; /* Remove max-width cap from previous breakpoint */
-    max-height: 35vh; /* Further adjust max video height */
+    width: 95%;
+    max-width: none;
+    max-height: 35vh;
   }
 
   .control-group.card {
     padding: 16px;
-  } /* Adjust card padding */
+  }
   .control-group h2 {
     font-size: 1.2rem;
-  } /* Adjust heading sizes */
+  }
   .control-group h3 {
     font-size: 1rem;
   }
   .control-group p {
     font-size: 0.875rem;
-  } /* Adjust paragraph font size */
+  }
 
   .btn {
     padding: 8px 16px;
     font-size: 0.8125rem;
-  } /* Smaller buttons */
+  }
   .btn .material-icons {
     font-size: 16px;
   }
   .btn-icon-only {
     width: 40px;
     height: 40px;
-  } /* Smaller icon-only buttons */
+  }
   .btn-icon-only .material-icons {
     font-size: 18px;
   }
 
   #callInput {
     font-size: 0.875rem;
-  } /* Adjust input font size */
+  }
   .participant-name {
     font-size: 0.75rem;
     padding: 2px 6px;
-  } /* Smaller participant names */
+  }
   .or-divider {
     margin: 16px 0;
-  } /* Reduce divider margin */
+  }
 }
