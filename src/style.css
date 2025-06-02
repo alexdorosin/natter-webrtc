@@ -1,96 +1,379 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+/* --- Body Styling --- */
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f8f9fa;
+  color: #202124;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* --- Main Application Layout Container --- */
+.app-layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  max-width: 1400px;
+  margin: auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.07);
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* --- Wrapper for Video Area and Primary Controls --- */
+.main-content-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* --- Video Display Area --- */
+.video-area {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  min-height: 180px;
+  flex-grow: 1;
+}
+
+.video-slot {
+  flex: 1 1 300px;
+  min-width: 280px;
+  background-color: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  max-height: calc(100vh - 280px);
+}
+
+.video-slot video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.participant-name {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* --- Controls Area (Webcam Setup, Call Management) --- */
+.controls-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-top: 16px;
+  flex-shrink: 0;
+}
+
+.control-group {
+  width: 100%;
+  max-width: 480px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #3178c6aa);
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-button {
+.control-group.card {
+  background-color: #fff;
+  padding: 24px;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.control-group h2,
+.control-group h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #3c4043;
+  margin-bottom: 8px;
+}
+.control-group h2 {
+  font-size: 1.375rem;
+  margin-bottom: 12px;
+}
+.control-group h3 {
+  font-size: 1.125rem;
+}
+
+.control-group p {
+  color: #5f6368;
+  font-size: 0.9375rem;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.create-call-section,
+.join-call-section {
+  margin-top: 16px;
+}
+.join-call-section input {
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #5f6368;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 24px 0;
+}
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #dadce0;
+}
+.or-divider span {
+  padding: 0 12px;
+}
+
+/* --- Buttons: Google Meet Style --- */
+.btn {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  text-transform: none;
+}
+.btn .material-icons {
+  font-size: 20px;
+}
+
+/* Primary action button (e.g., Start Webcam) */
+.btn-primary {
+  background-color: #1a73e8;
+  color: white;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: #1765cc;
+  box-shadow: 0 1px 2px 0 rgba(26, 115, 232, 0.3),
+    0 1px 3px 1px rgba(26, 115, 232, 0.15);
+}
+
+/* Outlined button (e.g., Create Call, Answer) */
+.btn-outlined {
+  background-color: white;
+  color: #1a73e8;
+  border-color: #dadce0;
+}
+.btn-outlined:hover:not(:disabled) {
+  background-color: rgba(26, 115, 232, 0.04);
+  border-color: #1a73e8;
+}
+
+/* Danger action button (e.g., Hangup) */
+.btn-danger {
+  background-color: #ea4335;
+  color: white;
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: #d93025;
+}
+
+/* Icon-only button styling (used for Hangup) */
+.btn-icon-only {
+  padding: 10px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+}
+.btn-icon-only .material-icons {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Disabled state for all buttons */
+.btn:disabled {
+  background-color: #f1f3f4 !important;
+  color: #bdc1c6 !important;
+  border-color: #f1f3f4 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+/* --- Input Field (for Call ID) --- */
+#callInput {
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  padding: 12px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 280px;
+  color: #202124;
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#callInput::placeholder {
+  color: #5f6368;
+}
+#callInput:focus {
+  outline: none;
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+/* --- Bottom Action Bar (for Hangup button) --- */
+.bottom-action-bar {
+  background-color: #ffffff;
+  padding: 12px 24px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+/* === Responsive Adjustments === */
+
+/* --- Tablet and Smaller (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .main-content-wrapper {
+    padding: 16px;
   }
-  a:hover {
-    color: #747bff;
+
+  .video-area {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    min-height: auto;
+    flex-wrap: nowrap;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .video-slot {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    width: 90%;
+    max-width: 420px;
+    min-width: 0;
+
+    max-height: 40vh;
+  }
+
+  .control-group.card {
+    padding: 20px;
+  }
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+  }
+  .btn .material-icons {
+    font-size: 18px;
+  }
+  .btn-icon-only {
+    width: 44px;
+    height: 44px;
+  }
+  .btn-icon-only .material-icons {
+    font-size: 20px;
+  }
+  #callInput {
+    font-size: 0.9375rem;
+  }
+  .participant-name {
+    font-size: 0.8125rem;
+  }
+}
+
+/* --- Mobile Phones (max-width: 480px) --- */
+@media (max-width: 480px) {
+  .main-content-wrapper {
+    padding: 12px;
+  }
+
+  .video-area {
+    gap: 12px;
+  }
+
+  .video-slot {
+    width: 95%;
+    max-width: none;
+    max-height: 35vh;
+  }
+
+  .control-group.card {
+    padding: 16px;
+  }
+  .control-group h2 {
+    font-size: 1.2rem;
+  }
+  .control-group h3 {
+    font-size: 1rem;
+  }
+  .control-group p {
+    font-size: 0.875rem;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.8125rem;
+  }
+  .btn .material-icons {
+    font-size: 16px;
+  }
+  .btn-icon-only {
+    width: 40px;
+    height: 40px;
+  }
+  .btn-icon-only .material-icons {
+    font-size: 18px;
+  }
+
+  #callInput {
+    font-size: 0.875rem;
+  }
+  .participant-name {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+  .or-divider {
+    margin: 16px 0;
   }
 }
