@@ -30,6 +30,7 @@ let pc: RTCPeerConnection | null = null;
 let localStream: MediaStream | null = null;
 let remoteStream: MediaStream | null = null;
 let unsubscribeListeners: Unsubscribe[] = [];
+let isMuted = false;
 
 // ======================================================================================
 export async function setupWebcam(): Promise<void> {
@@ -245,4 +246,19 @@ export async function hangupCall(): Promise<void> {
 
   // --- Step 5: Reset the UI to its initial state ---
   ui.resetUIForNewCall();
+}
+
+// ======================================================================================
+export function toggleMute() {
+  if (!localStream) return;
+
+  isMuted = !isMuted;
+
+  localStream.getAudioTracks().forEach((track) => {
+    track.enabled = !isMuted;
+  });
+
+  console.log(`Microphone is now ${isMuted ? "muted" : "unmuted"}.`);
+
+  return isMuted;
 }

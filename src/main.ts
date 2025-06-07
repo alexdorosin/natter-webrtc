@@ -31,6 +31,11 @@ function initializeFullApplication() {
         await webRTC.hangupCall();
       };
 
+      ui.micButton.onclick = () => {
+        const muted = webRTC.toggleMute();
+        ui.toggleMicIcon(!!muted);
+      };
+
       console.log("main.ts: Event listeners attached. Application ready.");
     })
     .catch((error) => {

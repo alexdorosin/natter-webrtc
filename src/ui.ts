@@ -8,10 +8,13 @@ export const webcamButton = getElement<HTMLButtonElement>("webcamButton");
 export const callButton = getElement<HTMLButtonElement>("callButton");
 export const answerButton = getElement<HTMLButtonElement>("answerButton");
 export const hangupButton = getElement<HTMLButtonElement>("hangupButton");
+export const micButton = getElement<HTMLButtonElement>("micButton");
 
 const webcamSetupGroup = getElement<HTMLDivElement>("webcam-setup-group");
 const callManagementGroup = getElement<HTMLDivElement>("call-management-group");
 const bottomActionBar = getElement<HTMLDivElement>("bottom-action-bar");
+
+let isMuted = false;
 
 export function initializeUIState(): void {
   callButton.disabled = true;
@@ -20,6 +23,7 @@ export function initializeUIState(): void {
   webcamSetupGroup.style.display = "block";
   callManagementGroup.style.display = "none";
   bottomActionBar.style.display = "none";
+  micButton.style.display = "none";
   console.log("Initial UI states set.");
 }
 
@@ -29,6 +33,7 @@ export function showWebcamFeed(): void {
   bottomActionBar.style.display = "flex";
   callButton.disabled = false;
   answerButton.disabled = false;
+  micButton.style.display = "inline-flex";
   console.log("UI updated for active webcam.");
 }
 
@@ -63,4 +68,14 @@ export function getCallId(): string {
 
 export function displayError(message: string): void {
   alert(message);
+}
+
+export function toggleMicIcon(muted: boolean) {
+  const icon = micButton.querySelector(".material-icons");
+
+  if (icon) {
+    icon.textContent = muted ? "mic_off" : "mic";
+    isMuted = muted;
+    micButton.classList.toggle("active", !muted);
+  }
 }
